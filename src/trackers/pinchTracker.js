@@ -80,8 +80,8 @@ export var TouchpadPinchGesture = registerClass(
   },
   class TouchpadPinchGesture extends GObject.Object {
     _init(params) {
-      var _a;
       super._init();
+      var _a;
       this._state = TouchpadState.NONE;
       this._ackState = GestureACKState.NONE;
       this._progress_scale = 1.0;

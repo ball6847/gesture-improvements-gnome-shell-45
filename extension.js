@@ -1,5 +1,5 @@
 /* exported init */
-import { GLib } from "gi://GLib";
+import GLib from "gi://GLib";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import { PinchGestureType } from "./common/settings.js";
 import {
@@ -19,7 +19,8 @@ import * as DBusUtils from "./src/utils/dbus.js";
 import * as VKeyboard from "./src/utils/keyboard.js";
 
 export default class GIExtension extends Extension {
-  constructor() {
+  enable() {
+    // from constructor
     this._settingChangedId = 0;
     this._reloadWaitId = 0;
     this._extensions = [];
@@ -28,9 +29,7 @@ export default class GIExtension extends Extension {
       "alttab-delay",
       "touchpad-pinch-speed",
     ];
-  }
-
-  enable() {
+    // end from constructor
     this.settings = this.getSettings();
     this._settingChangedId = this.settings.connect(
       "changed",
@@ -172,10 +171,10 @@ export default class GIExtension extends Extension {
         "enable-forward-back-gesture"
       );
       TouchpadConstants.SWIPE_MULTIPLIER =
-        Constants.TouchpadConstants.DEFAULT_SWIPE_MULTIPLIER *
+        TouchpadConstants.DEFAULT_SWIPE_MULTIPLIER *
         this.settings.get_double("touchpad-speed-scale");
       TouchpadConstants.PINCH_MULTIPLIER =
-        Constants.TouchpadConstants.DEFAULT_PINCH_MULTIPLIER *
+        TouchpadConstants.DEFAULT_PINCH_MULTIPLIER *
         this.settings.get_double("touchpad-pinch-speed");
       AltTabConstants.DELAY_DURATION = this.settings.get_int("alttab-delay");
       TouchpadConstants.HOLD_SWIPE_DELAY_DURATION = this.settings.get_int(
