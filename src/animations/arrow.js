@@ -31,7 +31,7 @@ export var ArrowIconAnimation = registerClass(
       this.add_child(this._inner_circle);
     }
 
-    gestureBegin(icon_name, from_left) {
+    gestureBegin(dir, icon_name, from_left) {
       this._transition = {
         arrow: {
           from: this._inner_circle.width * (from_left ? -1 : 1),
@@ -58,7 +58,7 @@ export var ArrowIconAnimation = registerClass(
       });
 
       this._arrow_icon.set_gicon(
-        Gio.Icon.new_for_string(`${this.dir.get_uri()}/assets/${icon_name}`) // TODO: not sure if this will work
+        Gio.Icon.new_for_string(`${dir.get_uri()}/assets/${icon_name}`) // TODO: not sure if this will work
       );
     }
 

@@ -81,7 +81,7 @@ export default class GIExtension extends Extension {
         .get_value("forward-back-application-keyboard-shortcuts")
         .deepUnpack();
       this._extensions.push(
-        new ForwardBackGestureExtension(appForwardBackKeyBinds)
+        new ForwardBackGestureExtension(appForwardBackKeyBinds, this.dir)
       );
     }
 
