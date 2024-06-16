@@ -5,6 +5,7 @@ import Shell from "gi://Shell";
 import St from "gi://St";
 import * as Utils from "resource:///org/gnome/shell/misc/util.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as Config from "resource:///org/gnome/shell/misc/config.js";
 
 import { registerClass } from "../common/utils/gobject.js";
 import { ExtSettings } from "../constants.js";
@@ -273,8 +274,11 @@ export var SnapWindowExtension = class SnapWindowExtension {
     this._touchpadSwipeGesture = this._swipeTracker._touchpadGesture;
     this._tilePreview = new TilePreview();
     Main.layoutManager.uiGroup.add_child(this._tilePreview);
+    const [major] = Config.PACKAGE_VERSION.split(".").map((s) => Number(s));
+    const event = major >= 46 ? "child-added" : "actor-added";
+
     this._uiGroupAddedActorId = Main.layoutManager.uiGroup.connect(
-      "child-added",
+      event,
       () => {
         Main.layoutManager.uiGroup.set_child_above_sibling(
           this._tilePreview,
