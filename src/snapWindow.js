@@ -63,7 +63,7 @@ const TilePreview = registerClass(
 
       this._window = window;
       this._fullscreenBox = global.display.get_monitor_geometry(
-        window.get_monitor()
+        window.get_monitor(),
       );
       this._maximizeBox = this.getMaximizedBox(window);
       this._normalBox = this.getNormalBox(window);
@@ -252,7 +252,7 @@ const TilePreview = registerClass(
       maximizedBox.height -= 2 * height;
       return maximizedBox;
     }
-  }
+  },
 );
 
 export var SnapWindowExtension = class SnapWindowExtension {
@@ -267,20 +267,20 @@ export var SnapWindowExtension = class SnapWindowExtension {
       Clutter.Orientation.VERTICAL,
       true,
       1,
-      { allowTouch: false }
+      { allowTouch: false },
     );
     this._swipeTracker.allowLongSwipes = true;
     this._touchpadSwipeGesture = this._swipeTracker._touchpadGesture;
     this._tilePreview = new TilePreview();
     Main.layoutManager.uiGroup.add_child(this._tilePreview);
     this._uiGroupAddedActorId = Main.layoutManager.uiGroup.connect(
-      "actor-added",
+      "child-added",
       () => {
         Main.layoutManager.uiGroup.set_child_above_sibling(
           this._tilePreview,
-          null
+          null,
         );
-      }
+      },
     );
 
     Main.layoutManager.uiGroup.set_child_above_sibling(this._tilePreview, null);
@@ -289,13 +289,13 @@ export var SnapWindowExtension = class SnapWindowExtension {
   apply() {
     this._swipeTracker.orientation = Clutter.Orientation.VERTICAL;
     this._connectors.push(
-      this._swipeTracker.connect("begin", this._gestureBegin.bind(this))
+      this._swipeTracker.connect("begin", this._gestureBegin.bind(this)),
     );
     this._connectors.push(
-      this._swipeTracker.connect("update", this._gestureUpdate.bind(this))
+      this._swipeTracker.connect("update", this._gestureUpdate.bind(this)),
     );
     this._connectors.push(
-      this._swipeTracker.connect("end", this._gestureEnd.bind(this))
+      this._swipeTracker.connect("end", this._gestureEnd.bind(this)),
     );
   }
 
@@ -306,7 +306,7 @@ export var SnapWindowExtension = class SnapWindowExtension {
     }
 
     this._connectors.forEach((connector) =>
-      this._swipeTracker.disconnect(connector)
+      this._swipeTracker.disconnect(connector),
     );
     Main.layoutManager.uiGroup.remove_child(this._tilePreview);
     this._swipeTracker.destroy();
@@ -332,8 +332,8 @@ export var SnapWindowExtension = class SnapWindowExtension {
     const progress = window.is_fullscreen()
       ? GestureMaxUnMaxState.FULLSCREEN
       : window.get_maximized() === Meta.MaximizeFlags.BOTH
-      ? GestureMaxUnMaxState.MAXIMIZE
-      : GestureMaxUnMaxState.UNMAXIMIZE;
+        ? GestureMaxUnMaxState.MAXIMIZE
+        : GestureMaxUnMaxState.UNMAXIMIZE;
 
     this._toggledDirection = false;
     this._allowChangeDirection = false;
@@ -343,7 +343,7 @@ export var SnapWindowExtension = class SnapWindowExtension {
         snapPoints.push(
           GestureTileState.RIGHT_TILE,
           GestureTileState.NORMAL,
-          GestureTileState.LEFT_TILE
+          GestureTileState.LEFT_TILE,
         );
 
         // allow tiling gesture, when window is unmaximized and minimized gesture is not enabled
@@ -352,7 +352,7 @@ export var SnapWindowExtension = class SnapWindowExtension {
       case GestureMaxUnMaxState.MAXIMIZE:
         snapPoints.push(
           GestureMaxUnMaxState.UNMAXIMIZE,
-          GestureMaxUnMaxState.MAXIMIZE
+          GestureMaxUnMaxState.MAXIMIZE,
         );
         if (
           !window.is_monitor_sized() &&
@@ -363,7 +363,7 @@ export var SnapWindowExtension = class SnapWindowExtension {
       case GestureMaxUnMaxState.FULLSCREEN:
         snapPoints.push(
           GestureMaxUnMaxState.MAXIMIZE,
-          GestureMaxUnMaxState.FULLSCREEN
+          GestureMaxUnMaxState.FULLSCREEN,
         );
         break;
     }
@@ -395,7 +395,7 @@ export var SnapWindowExtension = class SnapWindowExtension {
     ) {
       this._toggledDirection = true;
       this._touchpadSwipeGesture.switchDirectionTo(
-        Clutter.Orientation.HORIZONTAL
+        Clutter.Orientation.HORIZONTAL,
       );
       this._swipeTracker._progress = GestureTileState.NORMAL;
       this._swipeTracker._history.reset();
